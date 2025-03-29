@@ -1,6 +1,7 @@
 """Connector and methods accessing S3"""
 import os
-import logging 
+import logging
+from typing import Union 
 
 import boto3
 from io import StringIO, BytesIO
@@ -82,7 +83,7 @@ class S3BucketConnector():
         'supported to be written to s3!', file_format)
         raise WrongFormatException
         
-    def __put_object(self, out_buffer: StringIO or BytesIO, key: str):
+    def __put_object(self, out_buffer: Union[StringIO, BytesIO], key: str): 
         """
         Helper funtion for self.write_df_to_s3()
 
@@ -90,5 +91,6 @@ class S3BucketConnector():
         :key: target key of the saved file 
         """
         self._logger.info('Writing file to %s/%s/%s', self.endpoint_url, self._bucket.name, key)
-        self._bucket.put_object(Body=out_buffer.getvalue(), key=key)
+        self._bucket.put_object(Body=out_buffer.getvalue(), Key=key)
         return True 
+    

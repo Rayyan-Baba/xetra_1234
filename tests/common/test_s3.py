@@ -50,7 +50,6 @@ class TestS3BucketConnectorMethods(unittest.TestCase):
         """
         # mocking s3 connection stop 
         self.mock_aws.stop() #previously self.mock_s3.stop()
-        pass
 
     def test_list_files_in_prefix_ok(self):
         """
