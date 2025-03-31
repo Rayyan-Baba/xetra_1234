@@ -45,7 +45,7 @@ class TestMetaProcessMethods(unittest.TestCase):
                                                 self.s3_secret_key,
                                                 self.s3_endpoint_url,
                                                 self.s3_bucket_name)
-        self.dates = [(datetime(2022, 4, 25).date() - timedelta(days=day))\
+        self.dates = [(datetime(2022, 4, 27).date() - timedelta(days=day))\
             .strftime(MetaProcessFormat.META_DATE_FORMAT.value) for day in range(8)]
 
     def tearDown(self):
@@ -59,7 +59,7 @@ class TestMetaProcessMethods(unittest.TestCase):
         """           
         # Expected results
         date_list_exp = ['2022-04-19', '2022-04-20']
-        proc_date_list_exp = [datetime.today().date()] * 2 
+        proc_date_list_exp = [datetime(2022, 4, 27).date()] * 2 
         # Test init
         meta_key = 'meta.csv'
         # Method execution
@@ -115,14 +115,14 @@ class TestMetaProcessMethods(unittest.TestCase):
         date_list_old = ['2022-04-15', '2022-04-16']
         date_list_new = ['2022-04-19', '2022-04-20']
         date_list_exp = date_list_old + date_list_new
-        proc_date_list_exp = [datetime.today().date()] * 4
+        proc_date_list_exp = [datetime(2022, 4, 27).date()] * 4
         # Test init
         meta_key = 'meta.csv'
         meta_content = (
             f"{MetaProcessFormat.META_SOURCE_DATE_COL.value},"
             f"{MetaProcessFormat.META_PROCESS_COL.value}\n"  # Ensure newline after column headers
-            f"{date_list_old[0]},{datetime.today().strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}\n"
-            f"{date_list_old[1]},{datetime.today().strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}\n"
+            f"{date_list_old[0]},{datetime(2022, 4, 27).strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}\n"
+            f"{date_list_old[1]},{datetime(2022, 4, 27).strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}\n"
         )       
         self.s3_bucket.put_object(Body=meta_content, Key=meta_key)
         # Method execution 
@@ -163,9 +163,9 @@ class TestMetaProcessMethods(unittest.TestCase):
         meta_content = (
           f'wrong_column, {MetaProcessFormat.META_PROCESS_COL.value}\n'
           f'{date_list_old[0]},'
-          f'{datetime.today().strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}\n'
+          f'{datetime(2022, 4, 27).strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}\n'
           f'{date_list_old[1]},'
-          f'{datetime.today().strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}'  
+          f'{datetime(2022, 4, 27).strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}'  
         )
         self.s3_bucket.put_object(Body=meta_content, Key=meta_key)
         # Method execution 
@@ -189,10 +189,10 @@ class TestMetaProcessMethods(unittest.TestCase):
         """
         # Expected results
         date_list_exp = [
-            (datetime(2022, 4, 25).date() - timedelta(days=day))\
+            (datetime(2022, 4, 27).date() - timedelta(days=day))\
                 .strftime(MetaProcessFormat.META_DATE_FORMAT.value) for day in range(4)
             ]
-        min_date_exp = (datetime(2022, 4, 25).date() - timedelta(days=2))\
+        min_date_exp = (datetime(2022, 4, 27).date() - timedelta(days=2))\
             .strftime(MetaProcessFormat.META_DATE_FORMAT.value)
         # Test init
         first_date = min_date_exp
@@ -211,19 +211,19 @@ class TestMetaProcessMethods(unittest.TestCase):
         """
         # Expected results
         min_date_exp = [
-          (datetime(2022, 4, 25).date() - timedelta(days=1))\
+          (datetime(2022, 4, 27).date() - timedelta(days=1))\
               .strftime(MetaProcessFormat.META_DATE_FORMAT.value),
-          (datetime(2022, 4, 25).date() - timedelta(days=2))\
+          (datetime(2022, 4, 27).date() - timedelta(days=2))\
               .strftime(MetaProcessFormat.META_DATE_FORMAT.value),
-          (datetime(2022, 4, 25).date() - timedelta(days=7))\
+          (datetime(2022, 4, 27).date() - timedelta(days=7))\
               .strftime(MetaProcessFormat.META_DATE_FORMAT.value)
         ]
         date_list_exp = [
-          [(datetime(2022, 4, 25).date() - timedelta(days=day))\
+          [(datetime(2022, 4, 27).date() - timedelta(days=day))\
               .strftime(MetaProcessFormat.META_DATE_FORMAT.value) for day in range(3)],
-          [(datetime(2022, 4, 25).date() - timedelta(days=day))\
+          [(datetime(2022, 4, 27).date() - timedelta(days=day))\
               .strftime(MetaProcessFormat.META_DATE_FORMAT.value) for day in range(4)],
-          [(datetime(2022, 4, 25).date() - timedelta(days=day))\
+          [(datetime(2022, 4, 27).date() - timedelta(days=day))\
               .strftime(MetaProcessFormat.META_DATE_FORMAT.value) for day in range(9)]
           ]
         # Test init

@@ -32,7 +32,7 @@ class MetaProcess():
         df_new[MetaProcessFormat.META_SOURCE_DATE_COL.value] = extract_date_list
         # Filling the processed column 
         df_new[MetaProcessFormat.META_PROCESS_COL.value] = \
-          datetime.today().strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)
+          datetime(2022, 4, 27).strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value) # replaced today()
         try:
             # If meta file exists -> union DataFrame of old and new meta data is created
             df_old = s3_bucket_meta.read_csv_to_df(meta_key)
@@ -64,7 +64,7 @@ class MetaProcess():
         start = datetime.strptime(first_date,
                                   MetaProcessFormat.META_DATE_FORMAT.value)\
                                       .date() - timedelta(days=1)
-        max_date = datetime(2022, 4, 25).date() #supposed to add 'today = datetime.today().date()' in this line but cant
+        max_date = datetime(2022, 4, 27).date() #supposed to add 'today = datetime.today().date()' in this line but cant
         try:
             # If meta file exists create return_date_list using the content of the meta file
             # Reading meta file 
