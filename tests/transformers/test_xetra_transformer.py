@@ -55,7 +55,7 @@ class TestXetraETLMethods(unittest.TestCase):
                                                 self.s3_bucket_name_trg)
         # Creating source and target configuration
         conf_dict_src = {
-            'src_first_extract_date': '2021-04-01',
+            'src_first_extract_date': '2022-04-01',
             'src_columns': ['ISIN', 'Mnemonic', 'Date', 'Time',
             'StartPrice', 'EndPrice', 'MinPrice', 'MaxPrice', 'TradedVolume'],
             'src_col_date': 'Date',
@@ -84,39 +84,39 @@ class TestXetraETLMethods(unittest.TestCase):
         # Creating source files on mocked s3
         columns_src = ['ISIN', 'Mnemonic', 'Date', 'Time', 'StartPrice',
         'EndPrice', 'MinPrice', 'MaxPrice', 'TradedVolume']
-        data = [['AT0000A0E9W5', 'SANT', '2021-04-15', '12:00', 20.19, 18.45, 18.20, 20.33, 877],
-                ['AT0000A0E9W5', 'SANT', '2021-04-16', '15:00', 18.27, 21.19, 18.27, 21.34, 987],
-                ['AT0000A0E9W5', 'SANT', '2021-04-17', '13:00', 20.21, 18.27, 18.21, 20.42, 633],
-                ['AT0000A0E9W5', 'SANT', '2021-04-17', '14:00', 18.27, 21.19, 18.27, 21.34, 455],
-                ['AT0000A0E9W5', 'SANT', '2021-04-18', '07:00', 20.58, 19.27, 18.89, 20.58, 9066],
-                ['AT0000A0E9W5', 'SANT', '2021-04-18', '08:00', 19.27, 21.14, 19.27, 21.14, 1220],
-                ['AT0000A0E9W5', 'SANT', '2021-04-19', '07:00', 23.58, 23.58, 23.58, 23.58, 1035],
-                ['AT0000A0E9W5', 'SANT', '2021-04-19', '08:00', 23.58, 24.22, 23.31, 24.34, 1028],
-                ['AT0000A0E9W5', 'SANT', '2021-04-19', '09:00', 24.22, 22.21, 22.21, 25.01, 1523]]
+        data = [['AT0000A0E9W5', 'SANT', '2022-04-15', '12:00', 20.19, 18.45, 18.20, 20.33, 877],
+                ['AT0000A0E9W5', 'SANT', '2022-04-16', '15:00', 18.27, 21.19, 18.27, 21.34, 987],
+                ['AT0000A0E9W5', 'SANT', '2022-04-17', '13:00', 20.21, 18.27, 18.21, 20.42, 633],
+                ['AT0000A0E9W5', 'SANT', '2022-04-17', '14:00', 18.27, 21.19, 18.27, 21.34, 455],
+                ['AT0000A0E9W5', 'SANT', '2022-04-18', '07:00', 20.58, 19.27, 18.89, 20.58, 9066],
+                ['AT0000A0E9W5', 'SANT', '2022-04-18', '08:00', 19.27, 21.14, 19.27, 21.14, 1220],
+                ['AT0000A0E9W5', 'SANT', '2022-04-19', '07:00', 23.58, 23.58, 23.58, 23.58, 1035],
+                ['AT0000A0E9W5', 'SANT', '2022-04-19', '08:00', 23.58, 24.22, 23.31, 24.34, 1028],
+                ['AT0000A0E9W5', 'SANT', '2022-04-19', '09:00', 24.22, 22.21, 22.21, 25.01, 1523]]
         self.df_src = pd.DataFrame(data, columns=columns_src)
         self.s3_bucket_src.write_df_to_s3(self.df_src.loc[0:0],
-        '2021-04-15/2021-04-15_BINS_XETR12.csv','csv')
+        '2022-04-15/2022-04-15_BINS_XETR12.csv','csv')
         self.s3_bucket_src.write_df_to_s3(self.df_src.loc[1:1],
-        '2021-04-16/2021-04-16_BINS_XETR15.csv','csv')
+        '2022-04-16/2022-04-16_BINS_XETR15.csv','csv')
         self.s3_bucket_src.write_df_to_s3(self.df_src.loc[2:2],
-        '2021-04-17/2021-04-17_BINS_XETR13.csv','csv')
+        '2022-04-17/2022-04-17_BINS_XETR13.csv','csv')
         self.s3_bucket_src.write_df_to_s3(self.df_src.loc[3:3],
-        '2021-04-17/2021-04-17_BINS_XETR14.csv','csv')
+        '2022-04-17/2022-04-17_BINS_XETR14.csv','csv')
         self.s3_bucket_src.write_df_to_s3(self.df_src.loc[4:4],
-        '2021-04-18/2021-04-18_BINS_XETR07.csv','csv')
+        '2022-04-18/2022-04-18_BINS_XETR07.csv','csv')
         self.s3_bucket_src.write_df_to_s3(self.df_src.loc[5:5],
-        '2021-04-18/2021-04-18_BINS_XETR08.csv','csv')
+        '2022-04-18/2022-04-18_BINS_XETR08.csv','csv')
         self.s3_bucket_src.write_df_to_s3(self.df_src.loc[6:6],
-        '2021-04-19/2021-04-19_BINS_XETR07.csv','csv')
+        '2022-04-19/2022-04-19_BINS_XETR07.csv','csv')
         self.s3_bucket_src.write_df_to_s3(self.df_src.loc[7:7],
-        '2021-04-19/2021-04-19_BINS_XETR08.csv','csv')
+        '2022-04-19/2022-04-19_BINS_XETR08.csv','csv')
         self.s3_bucket_src.write_df_to_s3(self.df_src.loc[8:8],
-        '2021-04-19/2021-04-19_BINS_XETR09.csv','csv')
+        '2022-04-19/2022-04-19_BINS_XETR09.csv','csv')
         columns_report = ['ISIN', 'Date', 'opening_price_eur', 'closing_price_eur',
         'minimum_price_eur', 'maximum_price_eur', 'daily_traded_volume', 'change_prev_closing_%']
-        data_report = [['AT0000A0E9W5', '2021-04-17', 20.21, 18.27, 18.21, 21.34, 1088, 10.62],
-                       ['AT0000A0E9W5', '2021-04-18', 20.58, 19.27, 18.89, 21.14, 10286, 1.83],
-                       ['AT0000A0E9W5', '2021-04-19', 23.58, 24.22, 22.21, 25.01, 3586, 14.58]]
+        data_report = [['AT0000A0E9W5', '2022-04-17', 20.21, 18.27, 18.21, 21.34, 1088, 10.62],
+                       ['AT0000A0E9W5', '2022-04-18', 20.58, 19.27, 18.89, 21.14, 10286, 1.83],
+                       ['AT0000A0E9W5', '2022-04-19', 23.58, 24.22, 22.21, 25.01, 3586, 14.58]]
         self.df_report = pd.DataFrame(data_report, columns=columns_report)
 
     def tearDown(self):
@@ -148,8 +148,8 @@ class TestXetraETLMethods(unittest.TestCase):
         # Expected results
         df_exp = self.df_src.loc[1:8].reset_index(drop=True)
         # Test init
-        extract_date = '2021-04-17'
-        extract_date_list = ['2021-04-16', '2021-04-17', '2021-04-18', '2021-04-19', '2021-04-20']
+        extract_date = '2022-04-17'
+        extract_date_list = ['2022-04-16', '2022-04-17', '2022-04-18', '2022-04-19', '2022-04-20']
         # Method execution
         with patch.object(MetaProcess, "return_date_list",
         return_value=[extract_date, extract_date_list]):
@@ -167,8 +167,8 @@ class TestXetraETLMethods(unittest.TestCase):
         # Expected results
         log_exp = 'The dataframe is empty. No transformations will be applied.'
         # Test init
-        extract_date = '2021-04-17'
-        extract_date_list = ['2021-04-16', '2021-04-17', '2021-04-18']
+        extract_date = '2022-04-17'
+        extract_date_list = ['2022-04-16', '2022-04-17', '2022-04-18']
         df_input = pd.DataFrame()
         # Method execution
         with patch.object(MetaProcess, "return_date_list",
@@ -192,8 +192,8 @@ class TestXetraETLMethods(unittest.TestCase):
         log2_exp = 'Applying transformations to Xetra source data finished...'
         df_exp = self.df_report
         # Test init
-        extract_date = '2021-04-17'
-        extract_date_list = ['2021-04-16', '2021-04-17', '2021-04-18', '2021-04-19']
+        extract_date = '2022-04-17'
+        extract_date_list = ['2022-04-16', '2022-04-17', '2022-04-18', '2022-04-19']
         df_input = self.df_src.loc[1:8].reset_index(drop=True)
         # Method execution
         with patch.object(MetaProcess, "return_date_list",
@@ -207,6 +207,52 @@ class TestXetraETLMethods(unittest.TestCase):
                 self.assertIn(log2_exp, logm.output[1])
         # Test after method execution
         self.assertTrue(df_exp.equals(df_result))
+     
+    def test_load(self):
+        """
+        Tests the load method
+        """
+        # Expected results
+        log1_exp = 'Xetra target data successfully written.'
+        log2_exp = 'Xetra meta file successfully updated.'
+        df_exp = self.df_report
+        meta_exp = ['2022-04-17', '2022-04-18', '2022-04-19']
+        # Test init
+        extract_date = '2022-04-17'
+        extract_date_list = ['2022-04-16', '2022-04-17', '2022-04-18', '2022-04-19']
+        df_input = self.df_report
+        # Method execution
+        with patch.object(MetaProcess, "return_date_list",
+        return_value=[extract_date, extract_date_list]):
+            xetra_etl = XetraETL(self.s3_bucket_src, self.s3_bucket_trg,
+                         self.meta_key, self.source_config, self.target_config)
+            with self.assertLogs() as logm:
+                xetra_etl.load(df_input)
+                # Log test after method execution
+                self.assertIn(log1_exp, logm.output[1])
+                self.assertIn(log2_exp, logm.output[4])
+        # Test after method execution
+        trg_file = self.s3_bucket_trg.list_files_in_prefix(self.target_config.trg_key)[0]
+        data = self.trg_bucket.Object(key=trg_file).get().get('Body').read()
+        out_buffer = BytesIO(data)
+        df_result = pd.read_parquet(out_buffer)
+        self.assertTrue(df_exp.equals(df_result))
+        meta_file = self.s3_bucket_trg.list_files_in_prefix(self.meta_key)[0]
+        df_meta_result = self.s3_bucket_trg.read_csv_to_df(meta_file)
+        self.assertEqual(list(df_meta_result['source_date']), meta_exp)
+        # Cleanup after test
+        self.trg_bucket.delete_objects(
+            Delete={
+                'Objects': [
+                    {
+                        'Key': trg_file
+                    },
+                    {
+                        'Key': trg_file
+                    }
+                ]
+            }
+        )
 
 if __name__ == '__main__':
     unittest.main()
