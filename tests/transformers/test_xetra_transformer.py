@@ -5,8 +5,8 @@ from unittest.mock import patch
 from io import BytesIO
 
 import boto3
-from moto import mock_aws #replaced mock_s3 cuz it doesnt work anymore
-import pandas as pd  
+import pandas as pd 
+from moto import mock_aws #replaced mock_s3 cuz it doesnt work anymore 
 
 from xetra.common.s3 import S3BucketConnector
 from xetra.common.meta_process import MetaProcess
@@ -121,7 +121,7 @@ class TestXetraETLMethods(unittest.TestCase):
 
     def tearDown(self):
         # mocking s3 connection stop
-        self.mock_s3.stop()
+        self.mock_aws.stop()
 
     def test_extract_no_files(self):
         """
@@ -253,6 +253,45 @@ class TestXetraETLMethods(unittest.TestCase):
                 ]
             }
         )
+
+    def test_etl_report1(self):
+        """
+        Tests the etl_report1 method
+        """
+        # Expected results
+        df_exp = self.df_report
+        meta_exp = ['2022-04-17', '2022-04-18', '2022-04-19']
+        # Test init
+        extract_date = '2022-04-17'
+        extract_date_list = ['2022-04-16', '2022-04-17', '2022-04-18', '2022-04-19']
+        # Method execution
+        with patch.object(MetaProcess, "return_date_list",
+        return_value=[extract_date, extract_date_list]):
+            xetra_etl = XetraETL(self.s3_bucket_src, self.s3_bucket_trg,
+                         self.meta_key, self.source_config, self.target_config)
+            xetra_etl.etl_report1()
+        # Test after method execution
+        trg_file = self.s3_bucket_trg.list_files_in_prefix(self.target_config.trg_key)[0]
+        data = self.trg_bucket.Object(key=trg_file).get().get('Body').read()
+        out_buffer = BytesIO(data)
+        df_result = pd.read_parquet(out_buffer)
+        self.assertTrue(df_exp.equals(df_result))
+        meta_file = self.s3_bucket_trg.list_files_in_prefix(self.meta_key)[0]
+        df_meta_result = self.s3_bucket_trg.read_csv_to_df(meta_file)
+        self.assertEqual(list(df_meta_result['source_date']), meta_exp)
+        # Cleanup after test
+        self.trg_bucket.delete_objects(
+            Delete={
+                'Objects': [
+                    {
+                        'Key': trg_file
+                    },
+                    {
+                        'Key': trg_file
+                    }
+                ]
+            }
+        )    
 
 if __name__ == '__main__':
     unittest.main()

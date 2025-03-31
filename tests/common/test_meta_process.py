@@ -1,17 +1,17 @@
 """MetaProcessMethods"""
-from datetime import datetime, timedelta
-from io import StringIO
-import os 
+import os
 import unittest
+from io import StringIO
+from datetime import datetime, timedelta
 
 import boto3
-from moto import mock_aws #replaced mock_s3 cuz it doesnt work anymore
 import pandas as pd
+from moto import mock_aws #replaced mock_s3 cuz it doesnt work anymore
 
+from xetra.common.s3 import S3BucketConnector
+from xetra.common.meta_process import MetaProcess
 from xetra.common.constants import MetaProcessFormat
 from xetra.common.custom_exceptions import WrongMetaFileException
-from xetra.common.meta_process import MetaProcess
-from xetra.common.s3 import S3BucketConnector 
 
 class TestMetaProcessMethods(unittest.TestCase):
     """
@@ -119,13 +119,11 @@ class TestMetaProcessMethods(unittest.TestCase):
         # Test init
         meta_key = 'meta.csv'
         meta_content = (
-          f'{MetaProcessFormat.META_SOURCE_DATE_COL.value},'
-          f'{MetaProcessFormat.META_PROCESS_COL.value},'
-          f'{date_list_old[0]},'
-          f'{datetime.today().strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}\n'
-          f'{date_list_old[1]},'
-          f'{datetime.today().strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}'  
-        )
+            f"{MetaProcessFormat.META_SOURCE_DATE_COL.value},"
+            f"{MetaProcessFormat.META_PROCESS_COL.value}\n"  # Ensure newline after column headers
+            f"{date_list_old[0]},{datetime.today().strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}\n"
+            f"{date_list_old[1]},{datetime.today().strftime(MetaProcessFormat.META_PROCESS_DATE_FORMAT.value)}\n"
+        )       
         self.s3_bucket.put_object(Body=meta_content, Key=meta_key)
         # Method execution 
         MetaProcess.update_meta_file(date_list_new, meta_key, self.s3_bucket_meta)

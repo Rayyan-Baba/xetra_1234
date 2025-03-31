@@ -1,13 +1,14 @@
 """
 Methods for processing the meta file 
 """
-
 import collections
 from datetime import date, datetime, timedelta
+
 import pandas as pd
+
+from xetra.common.s3 import S3BucketConnector
 from xetra.common.constants import MetaProcessFormat
 from xetra.common.custom_exceptions import WrongMetaFileException
-from xetra.common.s3 import S3BucketConnector
 
 class MetaProcess():
     """
@@ -36,8 +37,8 @@ class MetaProcess():
             # If meta file exists -> union DataFrame of old and new meta data is created
             df_old = s3_bucket_meta.read_csv_to_df(meta_key)
             if collections.Counter(df_old.columns) != collections.Counter(df_new.columns):
-                raise WrongMetaFileException 
-            df_all = pd.concat([df_old, df_new])
+                raise WrongMetaFileException("Column mismatch between old and new meta file.") 
+            df_all = pd.concat([df_old, df_new], ignore_index=True)
         except s3_bucket_meta.session.client('s3').exceptions.NoSuchKey:
             # No meta file exists -> only the new data is used
             df_all = df_new

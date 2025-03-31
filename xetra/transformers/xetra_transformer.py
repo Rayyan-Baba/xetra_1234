@@ -1,12 +1,12 @@
 """Xetra ETL Component"""
 import logging
+from datetime import datetime
 from typing import NamedTuple
 
 import pandas as pd
 
-from xetra.common.meta_process import MetaProcess
 from xetra.common.s3 import S3BucketConnector
-
+from xetra.common.meta_process import MetaProcess
 
 class XetraSourceConfig(NamedTuple):
     """
@@ -195,6 +195,15 @@ class XetraETL():
         return True
 
     def etl_report1(self):
-        pass
+        """
+        Extract, transform and load to create report 1
+        """
+        # Extraction
+        data_frame = self.extract()
+        # Transformation
+        data_frame = self.transform_report1(data_frame)
+        # Load
+        self.load(data_frame)
+        return True
 
     
